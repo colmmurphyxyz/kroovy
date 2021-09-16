@@ -3,6 +3,7 @@ package xyz.colmmurphy.kroovy
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.interactions.commands.Command
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
@@ -44,9 +45,15 @@ class Kroovy {
             println("logged in")
 
             val guild = jda.getGuildById("781264866920235008")!!
+
+            guild.upsertCommand(
+                "ping", "Ping the bot's response time"
+            ).queue { cmd: Command -> println("Upserted Command ${cmd.name}")}
+
             guild.upsertCommand(
                 "play", "Play a video from YouTube",
             ).queue { _ -> println("Upserted command") }
+
             guild.upsertCommand(
                 "skip", "Skip the currently playing track",
             ).queue { _ -> println("upserted command") }

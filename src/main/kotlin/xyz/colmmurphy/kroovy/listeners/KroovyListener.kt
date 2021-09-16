@@ -1,6 +1,7 @@
 package xyz.colmmurphy.kroovy.listeners
 
 import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -17,8 +18,19 @@ class KroovyListener : ListenerAdapter() {
         const val prefix = Kroovy.prefix
     }
 
-    override fun onSlashCommand(event: SlashCommandEvent) {
+    override fun onSlashCommand(e: SlashCommandEvent) {
+        when (e.name) {
+            "ping" -> {
+                val time = System.currentTimeMillis()
+//                e.reply("Pong!").setEphemeral(true)
+//                    .flatMap { _ ->
+//                        e.hook.editOriginal("Pong! ${System.currentTimeMillis() - time} ms")
+//                    }.queue()
 
+                e.reply("Pong!").setEphemeral(false)
+                    .queue { hook -> hook.editOriginal("Pong! ${System.currentTimeMillis() - time} ms").queue() }
+            }
+        }
     }
 
     override fun onMessageReceived(e: MessageReceivedEvent) {

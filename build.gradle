@@ -1,0 +1,38 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'java'
+    id "application"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+group 'xyz.colmmurphy'
+version '0.1.0'
+
+ext {
+    JDAVersion = "4.3.0_324"
+}
+
+mainClassName = "xyz.colmmurphy.kroovy.Kroovy"
+
+repositories {
+    mavenCentral()
+    maven { // on kotlin dsl use `maven("https://m2.dv8tion.net/releases")` instead
+        url "https://m2.dv8tion.net/releases"
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation("net.dv8tion:JDA:4.3.0_324")
+
+    implementation 'com.sedmelluq:lavaplayer:1.3.77'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+}
+
+test {
+    useJUnitPlatform()
+}

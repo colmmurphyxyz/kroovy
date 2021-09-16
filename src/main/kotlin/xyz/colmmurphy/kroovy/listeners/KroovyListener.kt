@@ -1,6 +1,7 @@
 package xyz.colmmurphy.kroovy.listeners
 
 import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import xyz.colmmurphy.kroovy.lavaplayer.AudioPlayerSendHandler
@@ -11,9 +12,15 @@ import java.net.URI
 import java.net.URISyntaxException
 
 class KroovyListener : ListenerAdapter() {
+
     companion object {
         const val prefix = Kroovy.prefix
     }
+
+    override fun onSlashCommand(event: SlashCommandEvent) {
+
+    }
+
     override fun onMessageReceived(e: MessageReceivedEvent) {
         if (e.author.isBot || e.isWebhookMessage || !e.message.contentRaw.startsWith(Kroovy.prefix)) return
 

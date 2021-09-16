@@ -48,8 +48,20 @@ object PlayerManager {
                     .queue()
             }
 
-            override fun playlistLoaded(playlist: AudioPlaylist?) {
-                println("Playlist loaded")
+            override fun playlistLoaded(playlist: AudioPlaylist) {
+                this.trackLoaded(playlist.tracks[0]!!)
+//                val tracks = playlist.tracks
+//
+//                channel.sendMessage("Adding to queue: `")
+//                    .append(tracks.size.toString())
+//                    .append("` tracks from playlist `")
+//                    .append(playlist.name)
+//                    .append("`")
+//                    .queue()
+//
+//                for (track in tracks) {
+//                    musicManager.scheduler.queue((track))
+//                }
             }
 
             override fun noMatches() {

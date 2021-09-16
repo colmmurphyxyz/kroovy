@@ -22,7 +22,7 @@ class TrackScheduler(private val player: AudioPlayer) : AudioEventAdapter() {
         }
     }
 
-    private fun nextTrack() {
+    fun nextTrack() {
         player.startTrack(queue.poll(), false)
     }
 

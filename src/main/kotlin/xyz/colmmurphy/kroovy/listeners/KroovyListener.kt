@@ -7,6 +7,8 @@ import xyz.colmmurphy.kroovy.lavaplayer.AudioPlayerSendHandler
 import xyz.colmmurphy.kroovy.Kroovy
 import xyz.colmmurphy.kroovy.lavaplayer.GuildMusicManager
 import xyz.colmmurphy.kroovy.lavaplayer.PlayerManager
+import java.net.URI
+import java.net.URISyntaxException
 
 class KroovyListener : ListenerAdapter() {
     companion object {
@@ -56,9 +58,6 @@ class KroovyListener : ListenerAdapter() {
                 val self = e.guild.selfMember
                 val selfVoiceState = e.guild.selfMember.voiceState!!
 
-                channel.sendMessage("okay")
-                    .queue()
-
                 if (!selfVoiceState.inVoiceChannel()) {
                     channel.sendMessage("I need to be in a voice channel to use this command")
                         .queue()
@@ -81,12 +80,29 @@ class KroovyListener : ListenerAdapter() {
                 channel.sendMessage("ok")
                     .queue()
 
-                PlayerManager.loadAndPlay(channel, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                var link = message.contentRaw.substringAfter("${prefix}play ")
+
+                if (!isUrl(link)) {
+                   link = "ytsearch: " + link
+                }
+                PlayerManager.loadAndPlay(channel, link)
+            }
+            "${prefix}skip" -> {
+                PlayerManager.getMusicManager(e.guild).scheduler.nextTrack()
             }
             else -> {
-                channel.sendMessage("${cmds[0]} is not a valid command")
+                channel.sendMessage("`${cmds[0]}` is not a valid command")
                     .queue()
             }
         }
+    }
+
+    private fun isUrl(url: String): Boolean {
+        try {
+            val uri = URI(url)
+        } catch (e: URISyntaxException) {
+            return false
+        }
+        return true
     }
 }

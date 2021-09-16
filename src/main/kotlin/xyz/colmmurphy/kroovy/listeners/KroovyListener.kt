@@ -1,16 +1,15 @@
 package xyz.colmmurphy.kroovy.listeners
 
-import net.dv8tion.jda.api.entities.Guild
-import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import xyz.colmmurphy.kroovy.lavaplayer.AudioPlayerSendHandler
 import xyz.colmmurphy.kroovy.Kroovy
-import xyz.colmmurphy.kroovy.lavaplayer.GuildMusicManager
+import xyz.colmmurphy.kroovy.commands.KroovyCommand
 import xyz.colmmurphy.kroovy.lavaplayer.PlayerManager
 import java.net.URI
 import java.net.URISyntaxException
+import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
 class KroovyListener : ListenerAdapter() {
 
@@ -19,18 +18,16 @@ class KroovyListener : ListenerAdapter() {
     }
 
     override fun onSlashCommand(e: SlashCommandEvent) {
-        when (e.name) {
-            "ping" -> {
-                val time = System.currentTimeMillis()
-//                e.reply("Pong!").setEphemeral(true)
-//                    .flatMap { _ ->
-//                        e.hook.editOriginal("Pong! ${System.currentTimeMillis() - time} ms")
-//                    }.queue()
-
-                e.reply("Pong!").setEphemeral(false)
-                    .queue { hook -> hook.editOriginal("Pong! ${System.currentTimeMillis() - time} ms").queue() }
-            }
+        val commandName = e.name
+        println(commandName)
+        val cmd = Kroovy.commands[commandName]!!.createInstance().apply {
+            this.event = e
         }
+
+        cmd.handle()?.let {
+            e.reply(it.errorMessage).setEphemeral(false)
+                .queue()
+        } ?: cmd.execute()
     }
 
     override fun onMessageReceived(e: MessageReceivedEvent) {

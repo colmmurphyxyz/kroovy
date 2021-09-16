@@ -7,8 +7,10 @@ import net.dv8tion.jda.api.interactions.commands.Command
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
+import xyz.colmmurphy.kroovy.commands.KroovyCommand
 import xyz.colmmurphy.kroovy.listeners.KroovyListener
 import java.io.File
+import kotlin.reflect.KClass
 
 
 val TOKEN = File("token.txt").readText()
@@ -16,6 +18,13 @@ val TOKEN = File("token.txt").readText()
 class Kroovy {
     companion object {
         const val prefix = ";"
+
+        val commands = mapOf<String, KClass<out KroovyCommand>>(
+            "help" to xyz.colmmurphy.kroovy.commands.util.HelpCommand::class,
+            "ping" to xyz.colmmurphy.kroovy.commands.util.PingCommand::class,
+            "play" to xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,
+            "skip" to xyz.colmmurphy.kroovy.commands.music.SkipCommand::class
+        )
 
         lateinit var jda: JDA
 
@@ -58,6 +67,10 @@ class Kroovy {
                 "skip", "Skip the currently playing track",
             ).queue { _ -> println("upserted command") }
             Unit
+
+            guild.upsertCommand(
+                "help", "Display the help menu"
+            ).queue { println("Upserted command help") }
         }
     }
 }

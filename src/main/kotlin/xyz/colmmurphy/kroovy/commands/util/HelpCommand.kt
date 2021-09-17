@@ -2,7 +2,6 @@ package xyz.colmmurphy.kroovy.commands.util
 
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import xyz.colmmurphy.kroovy.Kroovy
-import xyz.colmmurphy.kroovy.commands.CommandHandleError
 import xyz.colmmurphy.kroovy.commands.KroovyCommand
 import kotlin.reflect.full.*
 
@@ -12,8 +11,7 @@ class HelpCommand : KroovyCommand() {
     override val description = "displays this menu"
 
 
-    override fun handle(): CommandHandleError? {
-        return null
+    override fun handle() {
     }
 
     /**

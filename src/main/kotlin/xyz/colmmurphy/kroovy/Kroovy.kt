@@ -3,10 +3,10 @@ package xyz.colmmurphy.kroovy
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.interactions.commands.Command
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
+import xyz.colmmurphy.kroovy.commands.Command
 import xyz.colmmurphy.kroovy.commands.KroovyCommand
 import xyz.colmmurphy.kroovy.listeners.KroovyListener
 import java.io.File
@@ -15,16 +15,18 @@ import kotlin.reflect.KClass
 
 val TOKEN = File("token.txt").readText()
 
+const val PRODUCTION = false
+
 class Kroovy {
     companion object {
         const val prefix = ";"
 
-        val commands = mapOf<String, KClass<out KroovyCommand>>(
-            "help" to xyz.colmmurphy.kroovy.commands.util.HelpCommand::class,
-            "ping" to xyz.colmmurphy.kroovy.commands.util.PingCommand::class,
-            "play" to xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,
-            "skip" to xyz.colmmurphy.kroovy.commands.music.SkipCommand::class
-        )
+//        val commands = mapOf<String, KClass<out KroovyCommand>>(
+//            "help" to xyz.colmmurphy.kroovy.commands.util.HelpCommand::class,
+//            "ping" to xyz.colmmurphy.kroovy.commands.util.PingCommand::class,
+//            "play" to xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,
+//            "skip" to xyz.colmmurphy.kroovy.commands.music.SkipCommand::class
+//        )
 
         lateinit var jda: JDA
 
@@ -55,22 +57,9 @@ class Kroovy {
 
             val guild = jda.getGuildById("781264866920235008")!!
 
-            guild.upsertCommand(
-                "ping", "Ping the bot's response time"
-            ).queue { cmd: Command -> println("Upserted Command ${cmd.name}")}
-
-            guild.upsertCommand(
-                "play", "Play a video from YouTube",
-            ).queue { _ -> println("Upserted command") }
-
-            guild.upsertCommand(
-                "skip", "Skip the currently playing track",
-            ).queue { _ -> println("upserted command") }
-            Unit
-
-            guild.upsertCommand(
-                "help", "Display the help menu"
-            ).queue { println("Upserted command help") }
+            if (!PRODUCTION) {
+                Command.upsertCommands(guild)
+            }
         }
     }
 }

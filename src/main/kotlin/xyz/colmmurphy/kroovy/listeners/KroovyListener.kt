@@ -4,11 +4,12 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import xyz.colmmurphy.kroovy.Kroovy
+import xyz.colmmurphy.kroovy.commands.Command
+import xyz.colmmurphy.kroovy.commands.CommandHandleException
 import xyz.colmmurphy.kroovy.commands.KroovyCommand
 import xyz.colmmurphy.kroovy.lavaplayer.PlayerManager
 import java.net.URI
 import java.net.URISyntaxException
-import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
 class KroovyListener : ListenerAdapter() {
@@ -20,14 +21,16 @@ class KroovyListener : ListenerAdapter() {
     override fun onSlashCommand(e: SlashCommandEvent) {
         val commandName = e.name
         println(commandName)
-        val cmd = Kroovy.commands[commandName]!!.createInstance().apply {
+
+        val cmd = Command.commandsMap[commandName]!!.createInstance().apply {
             this.event = e
         }
-
-        cmd.handle()?.let {
-            e.reply(it.errorMessage).setEphemeral(false)
+        try {
+            cmd.handle()
+        } catch (exception: CommandHandleException) {
+            e.reply(exception.errorMessage).setEphemeral(false)
                 .queue()
-        } ?: cmd.execute()
+        }
     }
 
     override fun onMessageReceived(e: MessageReceivedEvent) {

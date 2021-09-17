@@ -30,6 +30,9 @@ enum class Command(
         listOf(OptionData(OptionType.STRING, "track", "The name of the track to play", true))),
     SKIP("skip", "Skip the currently playing song", "/skip",
         xyz.colmmurphy.kroovy.commands.music.SkipCommand::class),
+    QUEUE("queue", "View all songs currently in the queue", "/queue",
+        xyz.colmmurphy.kroovy.commands.music.QueueCommand::class),
+
     HELP("help", "Displays this menu", "/help",
         xyz.colmmurphy.kroovy.commands.util.HelpCommand::class),
     PING("ping", "Ping the bot's response time", "/ping",
@@ -51,6 +54,8 @@ enum class Command(
                 ).queue {
                     i.options?.let { options ->
                         guild.editCommandById(it.id).addOptions(options)
+                            .queue()
+                        println("added options to command ${i.commandName}")
                     }
                     println("Upserted command ${i.commandName}")
 

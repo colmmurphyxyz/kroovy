@@ -17,7 +17,7 @@ class ShutDownCommand : KroovyCommand() {
 
     override fun execute() {
         event.reply("shutting down")
-            .queue()
+            .queue { kotlin.system.exitProcess(2) }
 
         kotlin.system.exitProcess(2)
     }

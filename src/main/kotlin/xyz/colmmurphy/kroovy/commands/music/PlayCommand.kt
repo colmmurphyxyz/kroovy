@@ -32,14 +32,15 @@ class PlayCommand : KroovyCommand() {
     }
 
     override fun execute() {
-        val cmdString = event.commandString
-        println(cmdString)
-        var link = cmdString.substringAfter("/play ")
+        var link = event.getOption("track")!!.asString
+        println(link)
         if (!isUrl(link)) {
             link = "ytsearch: $link"
         }
 
         PlayerManager.loadAndPlay(event.textChannel, link)
+        event.reply("\uD83D\uDC4D")
+            .queue()
     }
 
     private fun isUrl(url: String): Boolean {

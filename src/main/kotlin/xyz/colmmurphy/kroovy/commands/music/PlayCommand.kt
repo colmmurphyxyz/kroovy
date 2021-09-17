@@ -16,14 +16,19 @@ class PlayCommand : KroovyCommand() {
     override fun handle() {
         val selfVoiceState = event.guild!!.selfMember.voiceState!!
 
-        if (!selfVoiceState.inVoiceChannel()) {
-            throw(CommandHandleException("I need to be in a voice channel for this command to work"))
-        }
-
         val member = event.member!!
         val memberVoiceState = member.voiceState!!
         if (!memberVoiceState.inVoiceChannel()) {
             throw(CommandHandleException("You need to be in a voice channel to use this command"))
+        }
+
+        if (!selfVoiceState.inVoiceChannel()) {
+//            throw(CommandHandleException("I need to be in a voice channel for this command to work"))
+            val audioManager = event.guild!!.audioManager
+            val memberChannel = memberVoiceState.channel!!
+
+            audioManager.openAudioConnection(memberChannel)
+            return;
         }
 
         if (memberVoiceState.channel!! != selfVoiceState.channel) {
@@ -34,7 +39,8 @@ class PlayCommand : KroovyCommand() {
     override fun execute() {
         var link = event.getOption("track")!!.asString
         println(link)
-        if (!isUrl(link)) {
+        // the isUrl method returns true on single-word inputs e.g "everlong", for this reason I've disabled it for the time being
+        if (!isUrl(link) || true) {
             link = "ytsearch: $link"
         }
 

@@ -29,7 +29,6 @@ class KroovyListener : ListenerAdapter() {
         try {
             cmd.handle()
         } catch (exception: CommandHandleException) {
-            println("caught CommandHandleException")
             e.reply(exception.errorMessage).setEphemeral(false)
                 .queue()
             return

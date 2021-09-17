@@ -12,7 +12,7 @@ ext {
     JDAVersion = "4.3.0_324"
 }
 
-mainClassName = "xyz.colmmurphy.kroovy.Kroovy"
+mainClassName = "xyz.colmmurphy.kroovy.KroovyKt"
 
 repositories {
     mavenCentral()

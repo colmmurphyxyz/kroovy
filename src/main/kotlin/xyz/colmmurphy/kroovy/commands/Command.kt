@@ -15,6 +15,11 @@ enum class Command(
     val commandClass: KClass<out KroovyCommand>,
     val ownerOnly: Boolean = false
 ) {
+    SHUTDOWN(
+        "shutdown", "Fairly self-explanatory imo", "/shutdown",
+        listOf(),
+        xyz.colmmurphy.kroovy.commands.admin.ShutDownCommand::class,
+        true),
     PLAY("play", "Play a video from YouTube", "/play Never Gonna Give You Up Rick Astley",
         listOf(OptionData(OptionType.STRING, "track", "The name of the track to play", true)),
         xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,),

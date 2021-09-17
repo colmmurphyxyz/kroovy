@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 abstract class KroovyCommand {
     abstract var event: SlashCommandEvent
     abstract val name: String
+    open val ownerOnly: Boolean = false
 
     /**
      * Check for the necessary permissions or other shit before executing the command

@@ -1,14 +1,17 @@
 package xyz.colmmurphy.kroovy.commands.util
 
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import xyz.colmmurphy.kroovy.Kroovy
+import xyz.colmmurphy.kroovy.commands.Command
 import xyz.colmmurphy.kroovy.commands.KroovyCommand
+import java.awt.Color
 import kotlin.reflect.full.*
 
 class HelpCommand : KroovyCommand() {
     override lateinit var event: SlashCommandEvent
     override val name: String = "help"
-    override val description = "displays this menu"
 
 
     override fun handle() {
@@ -20,18 +23,11 @@ class HelpCommand : KroovyCommand() {
      */
     override fun execute() {
         var helpMenu = ""
-//        Kroovy.jda.retrieveCommands()
-//            .queue { commands ->
-//                for (cmd in commands) {
-//                    helpMenu += "**${cmd.name}** - ${cmd.description}\n"
-//                }
-//            }
-//        event.reply(helpMenu).setEphemeral(false)
-//            .queue()
-
-        for (cmd in Kroovy.commands.values) {
-            val foo = cmd.createInstance()
-            helpMenu += "**${foo.name}** - ${foo.description}\n"
+        for (cmd in Command.values()) {
+            if (!cmd.ownerOnly) {
+                helpMenu += "**${cmd.commandName}** - ${cmd.description}\n" +
+                        "`${cmd.example}`\n"
+            }
         }
         event.reply(helpMenu).setEphemeral(false)
             .queue()

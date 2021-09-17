@@ -22,11 +22,11 @@ enum class Command(
         xyz.colmmurphy.kroovy.commands.util.PingCommand::class);
 
     companion object {
-        val commandsMap: HashMap<String, KClass<out KroovyCommand>> = HashMap()
+        val commandsMap: HashMap<String, Command> = HashMap()
 
         init {
             values().forEach {
-                commandsMap[it.commandName] = it.commandClass
+                commandsMap[it.commandName] = it
             }
         }
 

@@ -16,15 +16,3 @@ abstract class KroovyCommand {
 
     abstract fun execute()
 }
-
-//interface KroovyCommand {
-//
-//    val name: String
-//    val description: String
-//    val example: String
-//
-//    fun handle()
-//
-//    fun execute()
-//
-//}

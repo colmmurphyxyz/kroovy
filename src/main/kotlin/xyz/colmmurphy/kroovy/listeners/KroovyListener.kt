@@ -22,7 +22,7 @@ class KroovyListener : ListenerAdapter() {
         val commandName = e.name
         println(commandName)
 
-        val cmd = Command.commandsMap[commandName]!!.createInstance().apply {
+        val cmd = Command.commandsMap[commandName]!!.commandClass.createInstance().apply {
             this.event = e
         }
         try {

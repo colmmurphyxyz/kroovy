@@ -7,8 +7,6 @@ import xyz.colmmurphy.kroovy.commands.KroovyCommand
 class SkipCommand : KroovyCommand() {
     override lateinit var event: SlashCommandEvent
     override val name: String = "foo"
-    override val description: String = "bar"
-    override val example: String = "foobar"
 
     override fun handle() {
         TODO("Not yet implemented")

@@ -15,6 +15,7 @@ class HelpCommand : KroovyCommand() {
 
 
     override fun handle() {
+        println("handling help command")
     }
 
     /**
@@ -22,11 +23,12 @@ class HelpCommand : KroovyCommand() {
      * If you know of a better way to do this, submit a pull request or DM Murf#5949 on Discord
      */
     override fun execute() {
+        println("executing help command")
         var helpMenu = ""
         for (cmd in Command.values()) {
             if (!cmd.ownerOnly) {
                 helpMenu += "**${cmd.commandName}** - ${cmd.description}\n" +
-                        "`${cmd.example}`\n"
+                        "`${cmd.example}`\n\n"
             }
         }
         event.reply(helpMenu).setEphemeral(false)

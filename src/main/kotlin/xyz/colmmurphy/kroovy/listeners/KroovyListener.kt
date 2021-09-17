@@ -25,12 +25,17 @@ class KroovyListener : ListenerAdapter() {
         val cmd = Command.commandsMap[commandName]!!.commandClass.createInstance().apply {
             this.event = e
         }
+
         try {
             cmd.handle()
         } catch (exception: CommandHandleException) {
+            println("caught CommandHandleException")
             e.reply(exception.errorMessage).setEphemeral(false)
                 .queue()
+            return
         }
+
+        cmd.execute()
     }
 
     override fun onMessageReceived(e: MessageReceivedEvent) {

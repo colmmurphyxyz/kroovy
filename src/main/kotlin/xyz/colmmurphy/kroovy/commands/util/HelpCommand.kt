@@ -17,10 +17,6 @@ class HelpCommand : KroovyCommand() {
     override fun handle() {
     }
 
-    /**
-     * I know this creates an object for every single command.
-     * If you know of a better way to do this, submit a pull request or DM Murf#5949 on Discord
-     */
     override fun execute() {
         var helpMenu = ""
         for (cmd in Command.values()) {

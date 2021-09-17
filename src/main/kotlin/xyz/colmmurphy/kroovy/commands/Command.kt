@@ -2,6 +2,8 @@ package xyz.colmmurphy.kroovy.commands
 
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.interactions.commands.OptionType
+import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import xyz.colmmurphy.kroovy.Kroovy
 import kotlin.reflect.KClass
 
@@ -9,16 +11,21 @@ enum class Command(
     val commandName: String,
     val description: String,
     val example: String,
+    val options: List<OptionData>,
     val commandClass: KClass<out KroovyCommand>,
     val ownerOnly: Boolean = false
 ) {
     PLAY("play", "Play a video from YouTube", "/play Never Gonna Give You Up Rick Astley",
-        xyz.colmmurphy.kroovy.commands.music.PlayCommand::class),
+        listOf(OptionData(OptionType.STRING, "track", "The name of the track to play", true)),
+        xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,),
     SKIP("skip", "Skip the currently playing song", "/skip",
+        listOf(),
         xyz.colmmurphy.kroovy.commands.music.SkipCommand::class),
     HELP("help", "Displays this menu", "/help",
+        listOf(),
         xyz.colmmurphy.kroovy.commands.util.HelpCommand::class),
     PING("ping", "Ping the bot's response time", "/ping",
+        listOf(),
         xyz.colmmurphy.kroovy.commands.util.PingCommand::class);
 
     companion object {
@@ -34,7 +41,14 @@ enum class Command(
             for (i in values()) {
                 guild.upsertCommand(
                     i.commandName, i.description
-                ).queue { println("Upserted command ${i.commandName}") }
+                ).queue {
+                    if (i.options.isNotEmpty()) {
+                        guild.editCommandById(it.id).addOptions(i.options)
+                            .queue()
+                    }
+                    println("Upserted command ${i.commandName}")
+
+                }
             }
         }
 

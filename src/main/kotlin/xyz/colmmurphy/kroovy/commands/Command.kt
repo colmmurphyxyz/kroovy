@@ -11,26 +11,23 @@ enum class Command(
     val commandName: String,
     val description: String,
     val example: String,
-    val options: List<OptionData>,
     val commandClass: KClass<out KroovyCommand>,
+    val options: List<OptionData>? = null,
     val ownerOnly: Boolean = false
 ) {
     SHUTDOWN(
         "shutdown", "Fairly self-explanatory imo", "/shutdown",
-        listOf(),
         xyz.colmmurphy.kroovy.commands.admin.ShutDownCommand::class,
+        null,
         true),
     PLAY("play", "Play a video from YouTube", "/play Never Gonna Give You Up Rick Astley",
-        listOf(OptionData(OptionType.STRING, "track", "The name of the track to play", true)),
-        xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,),
+        xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,
+        listOf(OptionData(OptionType.STRING, "track", "The name of the track to play", true))),
     SKIP("skip", "Skip the currently playing song", "/skip",
-        listOf(),
         xyz.colmmurphy.kroovy.commands.music.SkipCommand::class),
     HELP("help", "Displays this menu", "/help",
-        listOf(),
         xyz.colmmurphy.kroovy.commands.util.HelpCommand::class),
     PING("ping", "Ping the bot's response time", "/ping",
-        listOf(),
         xyz.colmmurphy.kroovy.commands.util.PingCommand::class);
 
     companion object {
@@ -47,9 +44,8 @@ enum class Command(
                 guild.upsertCommand(
                     i.commandName, i.description
                 ).queue {
-                    if (i.options.isNotEmpty()) {
-                        guild.editCommandById(it.id).addOptions(i.options)
-                            .queue()
+                    i.options?.let { options ->
+                        guild.editCommandById(it.id).addOptions(options)
                     }
                     println("Upserted command ${i.commandName}")
 

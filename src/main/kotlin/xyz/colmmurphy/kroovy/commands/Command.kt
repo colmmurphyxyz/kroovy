@@ -20,6 +20,11 @@ enum class Command(
         xyz.colmmurphy.kroovy.commands.admin.ShutDownCommand::class,
         null,
         true),
+
+    JOIN("join", "Have the bot connect to a voice channel", "/join",
+        xyz.colmmurphy.kroovy.commands.music.JoinCommand::class),
+    LEAVE("leave", "Makes the bot leave the voice channel", "/leave",
+        xyz.colmmurphy.kroovy.commands.music.LeaveCommand::class),
     PLAY("play", "Play a video from YouTube", "/play Never Gonna Give You Up Rick Astley",
         xyz.colmmurphy.kroovy.commands.music.PlayCommand::class,
         listOf(OptionData(OptionType.STRING, "track", "The name of the track to play", true))),

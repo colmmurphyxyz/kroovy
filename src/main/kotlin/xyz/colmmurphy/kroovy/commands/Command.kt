@@ -27,15 +27,7 @@ enum class Command(
         xyz.colmmurphy.kroovy.commands.misc.PollCommand::class,
         listOf<OptionData>(
             OptionData(OptionType.STRING, "question", "The question you want to ask",true),
-            OptionData(OptionType.STRING, "first", "option", true),
-            OptionData(OptionType.STRING, "second", "option", true),
-            OptionData(OptionType.STRING, "third", "option", false),
-            OptionData(OptionType.STRING, "fourth", "option", false),
-            OptionData(OptionType.STRING, "fifth", "option", false),
-            OptionData(OptionType.STRING, "sixth", "option", false),
-            OptionData(OptionType.STRING, "seventh", "option", false),
-            OptionData(OptionType.STRING, "eighth", "option", false),
-            OptionData(OptionType.STRING, "ninth", "option", false),
+            OptionData(OptionType.STRING, "answers", "Possible responses to the poll, seperated by a comma (,)", true)
             )),
 
     /* MUSIC */

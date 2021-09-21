@@ -15,12 +15,30 @@ enum class Command(
     val options: List<OptionData>? = null,
     val ownerOnly: Boolean = false
 ) {
+    /* ADMIN */
     SHUTDOWN(
         "shutdown", "Fairly self-explanatory imo", "/shutdown",
         xyz.colmmurphy.kroovy.commands.admin.ShutDownCommand::class,
         null,
         true),
 
+    /* MISC */
+    POLL("poll", "Create a poll", "/poll Does pineapple belong on pizza?",
+        xyz.colmmurphy.kroovy.commands.misc.PollCommand::class,
+        listOf<OptionData>(
+            OptionData(OptionType.STRING, "question", "The question you want to ask",true),
+            OptionData(OptionType.STRING, "first", "option", true),
+            OptionData(OptionType.STRING, "second", "option", true),
+            OptionData(OptionType.STRING, "third", "option", false),
+            OptionData(OptionType.STRING, "fourth", "option", false),
+            OptionData(OptionType.STRING, "fifth", "option", false),
+            OptionData(OptionType.STRING, "sixth", "option", false),
+            OptionData(OptionType.STRING, "seventh", "option", false),
+            OptionData(OptionType.STRING, "eighth", "option", false),
+            OptionData(OptionType.STRING, "ninth", "option", false),
+            )),
+
+    /* MUSIC */
     JOIN("join", "Have the bot connect to a voice channel", "/join",
         xyz.colmmurphy.kroovy.commands.music.JoinCommand::class),
     LEAVE("leave", "Makes the bot leave the voice channel", "/leave",
@@ -33,6 +51,7 @@ enum class Command(
     QUEUE("queue", "View all songs currently in the queue", "/queue",
         xyz.colmmurphy.kroovy.commands.music.QueueCommand::class),
 
+    /* UTIL */
     HELP("help", "Displays this menu", "/help",
         xyz.colmmurphy.kroovy.commands.util.HelpCommand::class),
     PING("ping", "Ping the bot's response time", "/ping",

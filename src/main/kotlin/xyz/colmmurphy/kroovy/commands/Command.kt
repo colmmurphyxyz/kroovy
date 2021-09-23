@@ -43,6 +43,13 @@ enum class Command(
     QUEUE("queue", "View all songs currently in the queue", "/queue",
         xyz.colmmurphy.kroovy.commands.music.QueueCommand::class),
 
+    /* UCC */
+    COURSE("course", "Get information on a UCC course", "/course ck401",
+        xyz.colmmurphy.kroovy.commands.ucc.CourseCommand::class,
+        listOf<OptionData>(
+            OptionData(OptionType.STRING, "course", "The CAO code for the course i.e CK401", true)
+        )),
+
     /* UTIL */
     HELP("help", "Displays this menu", "/help",
         xyz.colmmurphy.kroovy.commands.util.HelpCommand::class),
@@ -59,20 +66,30 @@ enum class Command(
         }
 
         fun upsertCommands(guild: Guild) {
-            for (i in values()) {
-                guild.upsertCommand(
-                    i.commandName, i.description
-                ).queue {
-                    i.options?.let { options ->
-                        guild.editCommandById(it.id).addOptions(options)
-                            .queue()
-                        println("added options to command ${i.commandName}")
-                    }
-                    println("Upserted command ${i.commandName}")
-
-                }
+            guild.upsertCommand(
+                COURSE.commandName, COURSE.description
+            ).queue {
+                guild.editCommandById(it.id).addOptions((COURSE.options!!))
+                    .queue()
+                println("upserted course command")
             }
         }
+
+//        fun upsertCommands(guild: Guild) {
+//            for (i in values()) {
+//                guild.upsertCommand(
+//                    i.commandName, i.description
+//                ).queue {
+//                    i.options?.let { options ->
+//                        guild.editCommandById(it.id).addOptions(options)
+//                            .queue()
+//                        println("added options to command ${i.commandName}")
+//                    }
+//                    println("Upserted command ${i.commandName}")
+//
+//                }
+//            }
+//        }
 
         fun upsertCommands() {
             val guild = Kroovy.jda.getGuildById("781264866920235008")!!
